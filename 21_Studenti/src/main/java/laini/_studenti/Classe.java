@@ -332,6 +332,43 @@ public class Classe
         return media;     
     }
     
+    
+    //Attenzione: è necessario creare un array con i soli studenti 
+    //presenti, altrimenti l'ordinatore si trova ad ordinare 
+    //un array contenente elementi vuoti
+    public Studente[] ordinaStudentiAlfabetico()
+    {
+        if (getNStudentiPresenti()==0)
+            return null;
+        
+        //mi creo un array con i soli studenti presenti da passare all'ordinatore
+        Studente[] ordinato= new Studente[getNStudentiPresenti()];
+        for (int i=0;i<ordinato.length;i++)
+            ordinato[i]=new Studente(elencoStudenti[i]); 
+        ordinato=Ordinatore.selectionSortCrescente(ordinato);
+        return ordinato;      
+    }
+    
+    //Attenzione: è necessario creare un array con i soli studenti 
+    //presenti, altrimenti l'ordinatore si trova ad ordinare 
+    //un array contenente elementi vuoti
+    public Studente[] ordinaStudentiMediaVotiDecrescente()
+    {
+        if (getNStudentiPresenti()==0)
+            return null;
+        
+        //mi creo un array con i soli studenti presenti da passare all'ordinatore
+        Studente[] ordinato= new Studente[getNStudentiPresenti()];
+       
+        
+        for (int i=0;i<ordinato.length;i++)
+            ordinato[i]=new Studente(elencoStudenti[i]); 
+
+        ordinato=Ordinatore.ordinaStudentiPerMediaEAlfabetico(ordinato);
+        return ordinato;      
+    }
+    
+    
     public String elencoStudenti()
     {
         String s="";

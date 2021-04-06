@@ -551,7 +551,7 @@ public class Main
         float media;
         
         //variabili menu
-        String[] elencoVocimenuClasse= new String[12];
+        String[] elencoVocimenuClasse= new String[14];
         elencoVocimenuClasse[0]="Torna al menu iniziale";
         elencoVocimenuClasse[1]="Aggiungi studente";
         elencoVocimenuClasse[2]="Elimina studente";
@@ -564,6 +564,8 @@ public class Main
         elencoVocimenuClasse[9]="Visualizza media voti di uno studente in una materia";
         elencoVocimenuClasse[10]="Visualizza media voti della classe in una materia";
         elencoVocimenuClasse[11]="Visualizza l'elenco degli studenti";
+        elencoVocimenuClasse[12]="Visualizza l'elenco degli studenti in ordine alfabetico";
+        elencoVocimenuClasse[13]="Visualizza l'elenco degli studenti in ordine decrescente di media voti";
         
         Menu menuClasse=new Menu(elencoVocimenuClasse);
         int sceltaUtente;
@@ -816,6 +818,34 @@ public class Main
                 {
                     System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
                     System.out.println(classe.elencoStudenti());
+                    break;
+                }
+                case 12: //mostra elenco studenti della classe in ordine alfabetico
+                {
+                    System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
+                    Studente[] elencoOrdinato;
+                    elencoOrdinato=classe.ordinaStudentiAlfabetico();
+                    if (elencoOrdinato.length==0)
+                        System.out.println("Nessuno studente presente");
+                    else
+                    {
+                        for (int i=0;i<elencoOrdinato.length;i++)
+                            System.out.println(elencoOrdinato[i].toString());
+                    }
+                    break;
+                }
+                case 13: //mostra elenco studenti della classe in ordine alfabetico
+                {
+                    System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
+                    Studente[] elencoOrdinato;
+                    elencoOrdinato=classe.ordinaStudentiMediaVotiDecrescente();
+                    if (elencoOrdinato.length==0)
+                        System.out.println("Nessuno studente presente");
+                    else
+                    {
+                        for (int i=0;i<elencoOrdinato.length;i++)
+                            System.out.println(elencoOrdinato[i].toString()+" media: "+elencoOrdinato[i].calcolaMedia());
+                    }
                     break;
                 }
             }
