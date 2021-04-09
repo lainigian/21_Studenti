@@ -825,8 +825,10 @@ public class Main
                     System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
                     Studente[] elencoOrdinato;
                     elencoOrdinato=classe.ordinaStudentiAlfabetico();
-                    if (elencoOrdinato.length==0)
-                        System.out.println("Nessuno studente presente");
+                    if (elencoOrdinato==null)
+                    { 
+                       System.out.println("Nessuno studente presente");
+                    }
                     else
                     {
                         for (int i=0;i<elencoOrdinato.length;i++)
@@ -839,7 +841,7 @@ public class Main
                     System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
                     Studente[] elencoOrdinato;
                     elencoOrdinato=classe.ordinaStudentiMediaVotiDecrescente();
-                    if (elencoOrdinato.length==0)
+                    if (elencoOrdinato==null)
                         System.out.println("Nessuno studente presente");
                     else
                     {
