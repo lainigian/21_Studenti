@@ -6,6 +6,7 @@
 package laini._studenti;
 
 import java.time.LocalDate;
+import utility.Ordinatore;
 
 /**
  *
@@ -349,4 +350,18 @@ public class Classe
         return s;
             
     }
+    
+    public Studente[] ordineAlfabeticoStudenti()
+    {
+        Studente[] elencoStudentiAlfabetico=new Studente[getNStudentiPresenti()];
+        for (int i=0;i<getNStudentiPresenti();i++)
+        {
+            elencoStudentiAlfabetico[i]=new Studente(elencoStudenti[i]);
+        }
+        
+        elencoStudentiAlfabetico=Ordinatore.ordinaStudenti(elencoStudentiAlfabetico);
+        return elencoStudentiAlfabetico;
+        
+    }
+    
 }

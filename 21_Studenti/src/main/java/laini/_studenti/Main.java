@@ -551,7 +551,7 @@ public class Main
         float media;
         
         //variabili menu
-        String[] elencoVocimenuClasse= new String[12];
+        String[] elencoVocimenuClasse= new String[13];
         elencoVocimenuClasse[0]="Torna al menu iniziale";
         elencoVocimenuClasse[1]="Aggiungi studente";
         elencoVocimenuClasse[2]="Elimina studente";
@@ -564,6 +564,7 @@ public class Main
         elencoVocimenuClasse[9]="Visualizza media voti di uno studente in una materia";
         elencoVocimenuClasse[10]="Visualizza media voti della classe in una materia";
         elencoVocimenuClasse[11]="Visualizza l'elenco degli studenti";
+        elencoVocimenuClasse[12]="Visualizza l'elenco alfabetico degli studenti";
         
         Menu menuClasse=new Menu(elencoVocimenuClasse);
         int sceltaUtente;
@@ -816,6 +817,17 @@ public class Main
                 {
                     System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
                     System.out.println(classe.elencoStudenti());
+                    break;
+                }
+                case 12:
+                {
+                   Studente elencoAlfabetico[];
+                   elencoAlfabetico=classe.ordineAlfabeticoStudenti();
+                   for (int i=0;i<elencoAlfabetico.length;i++)
+                   {
+                       System.out.println(elencoAlfabetico[i].toString());
+                   }
+                    
                     break;
                 }
             }
