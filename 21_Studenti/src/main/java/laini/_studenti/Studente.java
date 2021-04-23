@@ -208,7 +208,7 @@ public class Studente
     public String toString()
     {
         String s="";
-        s+=getMatricola()+" "+getCognome()+" "+getNome();
+        s+=getMatricola()+";"+getCognome()+";"+getNome()+";";
         return s;
     }   
 }

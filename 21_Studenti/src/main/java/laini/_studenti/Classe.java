@@ -5,7 +5,12 @@
  */
 package laini._studenti;
 
+import eccezioni.FileException;
+import file.TextFile;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -386,4 +391,31 @@ public class Classe
         return s;
             
     }
+    
+    public void esportaCSV() throws IOException, FileException
+    {
+        Studente[] studenti;
+        String s="";
+        String nomeFile=getAnno()+getSezione()+getIndirizzo()+".txt"; //costrusco il nome del file con il npome della classe
+        TextFile f1=new TextFile(nomeFile,'W');
+        //ottengo l'array di studenti ordinati alfabeticamente
+        studenti=ordinaStudentiAlfabetico();
+        for (int i=0;i<studenti.length;i++)
+        {
+            s=studenti[i].toString();
+            try 
+            {
+                f1.toFile(s);
+            } 
+            catch (FileException ex) 
+            {
+                //choido il file e risollevo la stessa eccezione passandola al chiamante
+                f1.close();
+                throw new FileException(ex.toString());
+            }
+        }
+        f1.close();
+        
+    }
+            
 }

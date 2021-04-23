@@ -5,9 +5,14 @@
  */
 package laini._studenti;
 
+import eccezioni.FileException;
+import file.TextFile;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +32,7 @@ public class Main
         Classe[] elencoClassi= new Classe[N_MAX_CLASSI];
         int nClassiPresenti=0;  
         Classe classe;
+        
 
         String[] elencoVociMenuIniziale={"Esci","Visualizza classi presenti", "Seleziona classe", "Aggiungi nuova classe"};
         int sceltaUtente;
@@ -551,7 +557,7 @@ public class Main
         float media;
         
         //variabili menu
-        String[] elencoVocimenuClasse= new String[14];
+        String[] elencoVocimenuClasse= new String[15];
         elencoVocimenuClasse[0]="Torna al menu iniziale";
         elencoVocimenuClasse[1]="Aggiungi studente";
         elencoVocimenuClasse[2]="Elimina studente";
@@ -566,6 +572,8 @@ public class Main
         elencoVocimenuClasse[11]="Visualizza l'elenco degli studenti";
         elencoVocimenuClasse[12]="Visualizza l'elenco degli studenti in ordine alfabetico";
         elencoVocimenuClasse[13]="Visualizza l'elenco degli studenti in ordine decrescente di media voti";
+        elencoVocimenuClasse[14]="Esporta elenco studenti in formato CSV";
+
         
         Menu menuClasse=new Menu(elencoVocimenuClasse);
         int sceltaUtente;
@@ -848,6 +856,23 @@ public class Main
                         for (int i=0;i<elencoOrdinato.length;i++)
                             System.out.println(elencoOrdinato[i].toString()+" media: "+elencoOrdinato[i].calcolaMedia());
                     }
+                    break;
+                }
+                case 14://esporta i dati della classe in formato CSV
+                {
+                        try 
+                        {
+                            classe.esportaCSV();
+                            System.out.println("Dati esportati correttamente");
+                        } 
+                        catch (IOException ex) 
+                        {
+                            System.out.println("Impossibile accedere al file");
+                        } 
+                        catch (FileException ex) 
+                        { 
+                            System.out.println(ex.toString());
+                        }
                     break;
                 }
             }
