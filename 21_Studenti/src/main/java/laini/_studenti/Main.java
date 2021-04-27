@@ -10,6 +10,7 @@ import file.TextFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,63 +36,33 @@ public class Main
         
 
         String[] elencoVociMenuIniziale={"Esci","Visualizza classi presenti", "Seleziona classe", "Aggiungi nuova classe"};
-        int sceltaUtente;
+        int sceltaUtente=0;
         Menu menuIniziale=new Menu(elencoVociMenuIniziale);
 
         do
         {
-            sceltaUtente=menuIniziale.sceltaMenu();
-            switch(sceltaUtente)
+            try
             {
-                case 0: //esci
+                sceltaUtente=menuIniziale.sceltaMenu();
+                switch(sceltaUtente)
                 {
-                    System.out.println("L'applicazione verrà terminata");
-                    break;
-                }
-                case 1: //visualizza classi presenti
-                {
-                    if (nClassiPresenti==0)
-                        System.out.println("Nessuna classe presente");
-                    else
+                    case 0: //esci
                     {
-                        for (int i=0;i<nClassiPresenti;i++)
-                            System.out.println(elencoClassi[i].getAnno()+elencoClassi[i].getSezione()+elencoClassi[i].getIndirizzo());
+                        System.out.println("L'applicazione verrà terminata");
+                        break;
                     }
-                    break;
-                }
-                case 2: //seleziona classe
-                {
-                    int anno;
-                    String sezione,indirizzo;
-                    System.out.println("Anno --> ");
-                    anno=tastiera.nextInt();
-                    System.out.println("Sezione --> ");
-                    sezione=tastiera.next();
-                    System.out.println("Indirizzo --> ");
-                    indirizzo=tastiera.next();
-                    boolean classeTrovata=false;
-                    for (int i=0;i<nClassiPresenti;i++)
+                    case 1: //visualizza classi presenti
                     {
-                        if (elencoClassi[i]!=null)
+                        if (nClassiPresenti==0)
+                            System.out.println("Nessuna classe presente");
+                        else
                         {
-                            classe=elencoClassi[i];
-                            if (classe.getAnno()==anno && classe.getSezione().compareToIgnoreCase(sezione)==0 && classe.getIndirizzo().compareToIgnoreCase(indirizzo)==0)
-                            {
-                                gestioneSottomenu(classe);
-                                classeTrovata=true;
-                            }
+                            for (int i=0;i<nClassiPresenti;i++)
+                                System.out.println(elencoClassi[i].getAnno()+elencoClassi[i].getSezione()+elencoClassi[i].getIndirizzo());
                         }
+                        break;
                     }
-                    if (!classeTrovata)
-                        System.out.println("La classe indicata non esiste");
-                        
-                    break;
-                }
-                case 3: //Aggiungi classe
-                {
-                    if (nClassiPresenti>=N_MAX_CLASSI)
-                        System.out.println("Impossibile aggiungere nuova classe");
-                    else
+                    case 2: //seleziona classe
                     {
                         int anno;
                         String sezione,indirizzo;
@@ -101,14 +72,53 @@ public class Main
                         sezione=tastiera.next();
                         System.out.println("Indirizzo --> ");
                         indirizzo=tastiera.next();
-                        elencoClassi[nClassiPresenti]= new Classe(indirizzo, sezione, anno);
-                        nClassiPresenti++;
-                        System.out.println("Nuova classe aggiunta correttamente");
+                        boolean classeTrovata=false;
+                        for (int i=0;i<nClassiPresenti;i++)
+                        {
+                            if (elencoClassi[i]!=null)
+                            {
+                                classe=elencoClassi[i];
+                                if (classe.getAnno()==anno && classe.getSezione().compareToIgnoreCase(sezione)==0 && classe.getIndirizzo().compareToIgnoreCase(indirizzo)==0)
+                                {
+                                    gestioneSottomenu(classe);
+                                    classeTrovata=true;
+                                }
+                            }
+                        }
+                        if (!classeTrovata)
+                            System.out.println("La classe indicata non esiste");
+
+                        break;
                     }
-                    break;
+                    case 3: //Aggiungi classe
+                    {
+                        if (nClassiPresenti>=N_MAX_CLASSI)
+                            System.out.println("Impossibile aggiungere nuova classe");
+                        else
+                        {
+                            int anno;
+                            String sezione,indirizzo;
+                            System.out.println("Anno --> ");
+                            anno=tastiera.nextInt();
+                            System.out.println("Sezione --> ");
+                            sezione=tastiera.next();
+                            System.out.println("Indirizzo --> ");
+                            indirizzo=tastiera.next();
+                            elencoClassi[nClassiPresenti]= new Classe(indirizzo, sezione, anno);
+                            nClassiPresenti++;
+                            System.out.println("Nuova classe aggiunta correttamente");
+                        }
+                        break;
+                    }
+
                 }
-                
             }
+            catch (InputMismatchException e1)
+            {
+                tastiera.nextLine();
+                System.out.println("Errore nell'inserimento del dato");
+            }
+            
             
         }while (sceltaUtente!=0);
             
@@ -576,307 +586,315 @@ public class Main
 
         
         Menu menuClasse=new Menu(elencoVocimenuClasse);
-        int sceltaUtente;
+        int sceltaUtente=0;
         
         do
         {
-            System.out.println("Premi un tasto per continuare...");
-            tastiera.nextLine();
-            sceltaUtente=menuClasse.sceltaMenu();
-            System.out.println("Premi un tasto per continuare...");
-            tastiera.nextLine();
-            switch(sceltaUtente)
+            try
             {
-                case 0: //Torna al meu iniziale
+                System.out.println("Premi un tasto per continuare...");
+                tastiera.nextLine();
+                sceltaUtente=menuClasse.sceltaMenu();
+                System.out.println("Premi un tasto per continuare...");
+                tastiera.nextLine();
+                switch(sceltaUtente)
                 {
-                    System.out.println("Menu INIZIALE: ");
-                    break;
-                }
-                case 1: //aggiungi studente
-                {
-                    System.out.println("Inserisci i dati dello studente");
-                    System.out.println("Cognome --> ");
-                    cognome=tastiera.nextLine();
-                    System.out.println("Nome --> ");
-                    nome=tastiera.nextLine();
-                    studente=new Studente(matricolaProssimoStudente,cognome,nome);
-                    matricolaProssimoStudente++;
-                    esitoOperazione=classe.aggiungiStudente(studente);
-                    if (esitoOperazione==-1)
-                        System.out.println("Massimo numero di studenti raggiunto. Impossibile aggiungere lo studente");
-                    else
-                        System.out.println("Studente aggiunto correttamente");
-                    break;
-                }
-                case 2: //elimina studente
-                {
-                    System.out.println("Inserisci la matricola dello studente da rimuovere");
-                    matricola=tastiera.nextLong();
-                    esitoOperazione=classe.rimuoviStudente(matricola);
-                    if (esitoOperazione==-1)
-                        System.out.println("Lo studente non è presente nella classe. Impossiile rimuovere lo studente");
-                    else
-                        System.out.println("Studente rimosso correttamente");
-                    break;
-                }
-                case 3: //Modifica dati anagrafici studente
-                {
-                    System.out.println("Inserisci la matricola dello studente da modificare");
-                    matricola=tastiera.nextLong();
-                    studente=classe.getStudente(matricola);
-                    if (studente==null)
-                        System.out.println("Studente non presente");
-                    else
+                    case 0: //Torna al meu iniziale
                     {
-                        System.out.println("Dati studente:"+ studente.toString());
-                        tastiera.nextLine();
-                        System.out.println("Inserisci cognome e nome: ");
+                        System.out.println("Menu INIZIALE: ");
+                        break;
+                    }
+                    case 1: //aggiungi studente
+                    {
+                        System.out.println("Inserisci i dati dello studente");
                         System.out.println("Cognome --> ");
                         cognome=tastiera.nextLine();
                         System.out.println("Nome --> ");
                         nome=tastiera.nextLine();
-                        esitoOperazione=classe.modificaDatiAnagrficiStudente(matricola, cognome, nome);
+                        studente=new Studente(matricolaProssimoStudente,cognome,nome);
+                        matricolaProssimoStudente++;
+                        esitoOperazione=classe.aggiungiStudente(studente);
                         if (esitoOperazione==-1)
+                            System.out.println("Massimo numero di studenti raggiunto. Impossibile aggiungere lo studente");
+                        else
+                            System.out.println("Studente aggiunto correttamente");
+                        break;
+                    }
+                    case 2: //elimina studente
+                    {
+                        System.out.println("Inserisci la matricola dello studente da rimuovere");
+                        matricola=tastiera.nextLong();
+                        esitoOperazione=classe.rimuoviStudente(matricola);
+                        if (esitoOperazione==-1)
+                            System.out.println("Lo studente non è presente nella classe. Impossiile rimuovere lo studente");
+                        else
+                            System.out.println("Studente rimosso correttamente");
+                        break;
+                    }
+                    case 3: //Modifica dati anagrafici studente
+                    {
+                        System.out.println("Inserisci la matricola dello studente da modificare");
+                        matricola=tastiera.nextLong();
+                        studente=classe.getStudente(matricola);
+                        if (studente==null)
                             System.out.println("Studente non presente");
                         else
-                            System.out.println("Modifica avvenuta correttamente");
-                    }
-   
-                    break;
-                }
-                case 4: //Aggiungi voto
-                {
-                    
-                    System.out.println("Inserisci la matricola dello studente a cui vuoi aggiungere un voto");
-                    matricola=tastiera.nextLong();
-                    studente=classe.getStudente(matricola);
-                    if (studente==null)
-                        System.out.println("Studente non presente");
-                    else
-                    {
-                        System.out.println("Studente:"+ studente.toString());
-                        System.out.println("Premi un tasto per continuare...");
-                        tastiera.nextLine();
-                        System.out.println("Materia --> ");
-                        materia=tastiera.nextLine();
-                        System.out.println("Data: ");
-                        System.out.println("Giorno --> ");
-                        giorno=tastiera.nextInt();
-                        System.out.println("Mese --> ");
-                        mese=tastiera.nextInt();
-                        System.out.println("Anno --> ");
-                        anno=tastiera.nextInt();
-                        data=LocalDate.of(anno, mese, giorno);
-                        System.out.println("Valore voto --> ");
-                        valore=tastiera.nextFloat();
-                        System.out.println("Tipologia voto (o,s,p) --> ");
-                        stringa=tastiera.next();
-                        tipologia=stringa.charAt(0);        
-                        voto=new Voto(idProssimoVoto, giorno, mese, anno, materia, valore, tipologia);
-                        idProssimoVoto++;
-                        esitoOperazione=classe.aggiungiVoto(matricola, voto);
-                        if (esitoOperazione==-1)
-                            System.out.println("Studente non presente");
-                        else if (esitoOperazione==-1)
-                            System.out.println("Numero massimo di voti raggiunto per lo studente");
-                        else
-                            System.out.println("Voto inserito correttamente");
-                    }
-                    break;
-                }
-                case 5: //visualizza voto
-                {
-                    System.out.println("Inserisci la matricola dello studente di cui vuoi visualizzare un voto");
-                    matricola=tastiera.nextLong();
-                    studente=classe.getStudente(matricola);
-                    if (studente==null)
-                        System.out.println("Studente non presente");
-                    else
-                    {
-                        System.out.println("Studente:"+ studente.toString());
-                        tastiera.nextLine();
-                        System.out.println("Materia --> ");
-                        materia=tastiera.nextLine();
-                        System.out.println("Data: ");
-                        System.out.println("Giorno --> ");
-                        giorno=tastiera.nextInt();
-                        System.out.println("Mese --> ");
-                        mese=tastiera.nextInt();
-                        System.out.println("Anno --> ");
-                        anno=tastiera.nextInt();
-                        data=LocalDate.of(anno, mese, giorno);
-                        voto=new Voto();
-                        esitoOperazione=classe.getVoto(matricola, data, materia, voto);
-                        if (esitoOperazione==-1)
-                            System.out.println("Studente non presente");
-                        else if(esitoOperazione==-2)
-                            System.out.println("Voto non presente");
-                        else
-                            System.out.println("Voto: "+voto.toString());
-                    }
-                    break;
-                }
-                case 6: //elimina voto
-                {
-                    System.out.println("Inserisci la matricola dello studente di cui vuoi eliminare il voto");
-                    matricola=tastiera.nextLong();
-                    studente=classe.getStudente(matricola);
-                    if (studente==null)
-                        System.out.println("Studente non presente");
-                    else
-                    {
-                        System.out.println("Studente:"+ studente.toString());
-                        tastiera.nextLine();
-                        System.out.println("Materia --> ");
-                        materia=tastiera.nextLine();
-                        System.out.println("Data: ");
-                        System.out.println("Giorno --> ");
-                        giorno=tastiera.nextInt();
-                        System.out.println("Mese --> ");
-                        mese=tastiera.nextInt();
-                        System.out.println("Anno --> ");
-                        anno=tastiera.nextInt();
-                        data=LocalDate.of(anno, mese, giorno);
-                        
-                        esitoOperazione=classe.eliminaVoto(matricola,data,materia);
-                        if (esitoOperazione==-1)
-                            System.out.println("Studente non presente");            //questo caso non si presenterà mai
-                        else if (esitoOperazione==-2)
-                            System.out.println("Voto non presente, impossibile eliminarlo");
-                        else
-                            System.out.println("Voto eliminato correttamete");
-                    }
-                break;
-                }
-                case 7:  //mostra tutti i voti di uno studente
-                {
-                    System.out.println("Inserisci la matricola dello studente di cui vuoi vedere i voti");
-                    matricola=tastiera.nextLong();
-                    studente=classe.getStudente(matricola);
-                    if (studente==null)
-                        System.out.println("Studente non presente");
-                    else
-                    {
-                        System.out.println("Studente:"+ studente.toString());
-                        tastiera.nextLine();
-                        System.out.println(classe.mostraVoti(matricola));
-                    }
-                        
-                    break;
-                }
-                case 8:  //visualizza media voti di uno studente
-                {
-                    System.out.println("Inserisci la matricola dello studente di cui vuoi vedere la media");
-                    matricola=tastiera.nextLong();
-                    studente=classe.getStudente(matricola);
-                    if (studente==null)
-                        System.out.println("Studente non presente");
-                    else
-                    {
-                        System.out.println("Studente:"+ studente.toString());
-                        tastiera.nextLine();  
-                        media=classe.calcolaMedia(matricola);
-                        if (media==-1)
-                            System.out.println("Studente non presente");     //questo caso non si presenterà mai
-                        else if (media==-2)
-                            System.out.println("Lo studente non ha voti");
-                        else
-                            System.out.println("Media complessiva: "+media);
-                    }
-                    break;
-                }
-                case 9: //visualizza media voti di uno studente in una materia
-                {
-                    System.out.println("Inserisci la matricola dello studente di cui vuoi la media in una determinata materia");
-                    matricola=tastiera.nextLong();
-                    studente=classe.getStudente(matricola);
-                    if (studente==null)
-                        System.out.println("Studente non presente");
-                    else
-                    {
-                        System.out.println("Studente:"+ studente.toString());
-                        tastiera.nextLine();                        
-                        System.out.println("Materia --> ");
-                        materia=tastiera.nextLine();
-                        media=classe.calcolaMedia(matricola,materia);
-                        if (media==-1)
-                            System.out.println("Studente non presente");  //mai
-                        else if (media==-2)
-                            System.out.println("Lo studente non ha voti per questa materia");
-                        else
-                            System.out.println("Media nella materia: "+media);   
-                    }
-                    break;
-                }
-                case 10: //media della classe in una materia
-                {
-                    System.out.println("Materia --> ");
-                    materia=tastiera.nextLine();
-                    System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
-                    media=classe.calcolaMediaClasseMateria(materia);
-                    if (media==-1)
-                         System.out.println("Nessuno studente presente");
-                    else if(media==-2)
-                         System.out.println("Nessun voto presente");
-                    else
-                        System.out.println("Media complessiva della classe: "+media);                    
-                    break;
-                }
-                case 11: //mostra elenco studenti della classe
-                {
-                    System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
-                    System.out.println(classe.elencoStudenti());
-                    break;
-                }
-                case 12: //mostra elenco studenti della classe in ordine alfabetico
-                {
-                    System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
-                    Studente[] elencoOrdinato;
-                    elencoOrdinato=classe.ordinaStudentiAlfabetico();
-                    if (elencoOrdinato==null)
-                    { 
-                       System.out.println("Nessuno studente presente");
-                    }
-                    else
-                    {
-                        for (int i=0;i<elencoOrdinato.length;i++)
-                            System.out.println(elencoOrdinato[i].toString());
-                    }
-                    break;
-                }
-                case 13: //mostra elenco studenti della classe in ordine alfabetico
-                {
-                    System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
-                    Studente[] elencoOrdinato;
-                    elencoOrdinato=classe.ordinaStudentiMediaVotiDecrescente();
-                    if (elencoOrdinato==null)
-                        System.out.println("Nessuno studente presente");
-                    else
-                    {
-                        for (int i=0;i<elencoOrdinato.length;i++)
-                            System.out.println(elencoOrdinato[i].toString()+" media: "+elencoOrdinato[i].calcolaMedia());
-                    }
-                    break;
-                }
-                case 14://esporta i dati della classe in formato CSV
-                {
-                        try 
                         {
-                            classe.esportaCSV();
-                            System.out.println("Dati esportati correttamente");
-                        } 
-                        catch (IOException ex) 
+                            System.out.println("Dati studente:"+ studente.toString());
+                            tastiera.nextLine();
+                            System.out.println("Inserisci cognome e nome: ");
+                            System.out.println("Cognome --> ");
+                            cognome=tastiera.nextLine();
+                            System.out.println("Nome --> ");
+                            nome=tastiera.nextLine();
+                            esitoOperazione=classe.modificaDatiAnagrficiStudente(matricola, cognome, nome);
+                            if (esitoOperazione==-1)
+                                System.out.println("Studente non presente");
+                            else
+                                System.out.println("Modifica avvenuta correttamente");
+                        }
+
+                        break;
+                    }
+                    case 4: //Aggiungi voto
+                    {
+
+                        System.out.println("Inserisci la matricola dello studente a cui vuoi aggiungere un voto");
+                        matricola=tastiera.nextLong();
+                        studente=classe.getStudente(matricola);
+                        if (studente==null)
+                            System.out.println("Studente non presente");
+                        else
                         {
-                            System.out.println("Impossibile accedere al file");
-                        } 
-                        catch (FileException ex) 
-                        { 
-                            System.out.println(ex.toString());
+                            System.out.println("Studente:"+ studente.toString());
+                            System.out.println("Premi un tasto per continuare...");
+                            tastiera.nextLine();
+                            System.out.println("Materia --> ");
+                            materia=tastiera.nextLine();
+                            System.out.println("Data: ");
+                            System.out.println("Giorno --> ");
+                            giorno=tastiera.nextInt();
+                            System.out.println("Mese --> ");
+                            mese=tastiera.nextInt();
+                            System.out.println("Anno --> ");
+                            anno=tastiera.nextInt();
+                            data=LocalDate.of(anno, mese, giorno);
+                            System.out.println("Valore voto --> ");
+                            valore=tastiera.nextFloat();
+                            System.out.println("Tipologia voto (o,s,p) --> ");
+                            stringa=tastiera.next();
+                            tipologia=stringa.charAt(0);        
+                            voto=new Voto(idProssimoVoto, giorno, mese, anno, materia, valore, tipologia);
+                            idProssimoVoto++;
+                            esitoOperazione=classe.aggiungiVoto(matricola, voto);
+                            if (esitoOperazione==-1)
+                                System.out.println("Studente non presente");
+                            else if (esitoOperazione==-1)
+                                System.out.println("Numero massimo di voti raggiunto per lo studente");
+                            else
+                                System.out.println("Voto inserito correttamente");
+                        }
+                        break;
+                    }
+                    case 5: //visualizza voto
+                    {
+                        System.out.println("Inserisci la matricola dello studente di cui vuoi visualizzare un voto");
+                        matricola=tastiera.nextLong();
+                        studente=classe.getStudente(matricola);
+                        if (studente==null)
+                            System.out.println("Studente non presente");
+                        else
+                        {
+                            System.out.println("Studente:"+ studente.toString());
+                            tastiera.nextLine();
+                            System.out.println("Materia --> ");
+                            materia=tastiera.nextLine();
+                            System.out.println("Data: ");
+                            System.out.println("Giorno --> ");
+                            giorno=tastiera.nextInt();
+                            System.out.println("Mese --> ");
+                            mese=tastiera.nextInt();
+                            System.out.println("Anno --> ");
+                            anno=tastiera.nextInt();
+                            data=LocalDate.of(anno, mese, giorno);
+                            voto=new Voto();
+                            esitoOperazione=classe.getVoto(matricola, data, materia, voto);
+                            if (esitoOperazione==-1)
+                                System.out.println("Studente non presente");
+                            else if(esitoOperazione==-2)
+                                System.out.println("Voto non presente");
+                            else
+                                System.out.println("Voto: "+voto.toString());
+                        }
+                        break;
+                    }
+                    case 6: //elimina voto
+                    {
+                        System.out.println("Inserisci la matricola dello studente di cui vuoi eliminare il voto");
+                        matricola=tastiera.nextLong();
+                        studente=classe.getStudente(matricola);
+                        if (studente==null)
+                            System.out.println("Studente non presente");
+                        else
+                        {
+                            System.out.println("Studente:"+ studente.toString());
+                            tastiera.nextLine();
+                            System.out.println("Materia --> ");
+                            materia=tastiera.nextLine();
+                            System.out.println("Data: ");
+                            System.out.println("Giorno --> ");
+                            giorno=tastiera.nextInt();
+                            System.out.println("Mese --> ");
+                            mese=tastiera.nextInt();
+                            System.out.println("Anno --> ");
+                            anno=tastiera.nextInt();
+                            data=LocalDate.of(anno, mese, giorno);
+
+                            esitoOperazione=classe.eliminaVoto(matricola,data,materia);
+                            if (esitoOperazione==-1)
+                                System.out.println("Studente non presente");            //questo caso non si presenterà mai
+                            else if (esitoOperazione==-2)
+                                System.out.println("Voto non presente, impossibile eliminarlo");
+                            else
+                                System.out.println("Voto eliminato correttamete");
                         }
                     break;
+                    }
+                    case 7:  //mostra tutti i voti di uno studente
+                    {
+                        System.out.println("Inserisci la matricola dello studente di cui vuoi vedere i voti");
+                        matricola=tastiera.nextLong();
+                        studente=classe.getStudente(matricola);
+                        if (studente==null)
+                            System.out.println("Studente non presente");
+                        else
+                        {
+                            System.out.println("Studente:"+ studente.toString());
+                            tastiera.nextLine();
+                            System.out.println(classe.mostraVoti(matricola));
+                        }
+
+                        break;
+                    }
+                    case 8:  //visualizza media voti di uno studente
+                    {
+                        System.out.println("Inserisci la matricola dello studente di cui vuoi vedere la media");
+                        matricola=tastiera.nextLong();
+                        studente=classe.getStudente(matricola);
+                        if (studente==null)
+                            System.out.println("Studente non presente");
+                        else
+                        {
+                            System.out.println("Studente:"+ studente.toString());
+                            tastiera.nextLine();  
+                            media=classe.calcolaMedia(matricola);
+                            if (media==-1)
+                                System.out.println("Studente non presente");     //questo caso non si presenterà mai
+                            else if (media==-2)
+                                System.out.println("Lo studente non ha voti");
+                            else
+                                System.out.println("Media complessiva: "+media);
+                        }
+                        break;
+                    }
+                    case 9: //visualizza media voti di uno studente in una materia
+                    {
+                        System.out.println("Inserisci la matricola dello studente di cui vuoi la media in una determinata materia");
+                        matricola=tastiera.nextLong();
+                        studente=classe.getStudente(matricola);
+                        if (studente==null)
+                            System.out.println("Studente non presente");
+                        else
+                        {
+                            System.out.println("Studente:"+ studente.toString());
+                            tastiera.nextLine();                        
+                            System.out.println("Materia --> ");
+                            materia=tastiera.nextLine();
+                            media=classe.calcolaMedia(matricola,materia);
+                            if (media==-1)
+                                System.out.println("Studente non presente");  //mai
+                            else if (media==-2)
+                                System.out.println("Lo studente non ha voti per questa materia");
+                            else
+                                System.out.println("Media nella materia: "+media);   
+                        }
+                        break;
+                    }
+                    case 10: //media della classe in una materia
+                    {
+                        System.out.println("Materia --> ");
+                        materia=tastiera.nextLine();
+                        System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
+                        media=classe.calcolaMediaClasseMateria(materia);
+                        if (media==-1)
+                             System.out.println("Nessuno studente presente");
+                        else if(media==-2)
+                             System.out.println("Nessun voto presente");
+                        else
+                            System.out.println("Media complessiva della classe: "+media);                    
+                        break;
+                    }
+                    case 11: //mostra elenco studenti della classe
+                    {
+                        System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
+                        System.out.println(classe.elencoStudenti());
+                        break;
+                    }
+                    case 12: //mostra elenco studenti della classe in ordine alfabetico
+                    {
+                        System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
+                        Studente[] elencoOrdinato;
+                        elencoOrdinato=classe.ordinaStudentiAlfabetico();
+                        if (elencoOrdinato==null)
+                        { 
+                           System.out.println("Nessuno studente presente");
+                        }
+                        else
+                        {
+                            for (int i=0;i<elencoOrdinato.length;i++)
+                                System.out.println(elencoOrdinato[i].toString());
+                        }
+                        break;
+                    }
+                    case 13: //mostra elenco studenti della classe in ordine alfabetico
+                    {
+                        System.out.println(classe.getAnno()+classe.getSezione()+classe.getIndirizzo());
+                        Studente[] elencoOrdinato;
+                        elencoOrdinato=classe.ordinaStudentiMediaVotiDecrescente();
+                        if (elencoOrdinato==null)
+                            System.out.println("Nessuno studente presente");
+                        else
+                        {
+                            for (int i=0;i<elencoOrdinato.length;i++)
+                                System.out.println(elencoOrdinato[i].toString()+" media: "+elencoOrdinato[i].calcolaMedia());
+                        }
+                        break;
+                    }
+                    case 14://esporta i dati della classe in formato CSV
+                    {
+                            try 
+                            {
+                                classe.esportaCSV();
+                                System.out.println("Dati esportati correttamente");
+                            } 
+                            catch (IOException ex) 
+                            {
+                                System.out.println("Impossibile accedere al file");
+                            } 
+                            catch (FileException ex) 
+                            { 
+                                System.out.println(ex.toString());
+                            }
+                        break;
+                    }
                 }
-            }
          
+            }
+            catch (InputMismatchException e1)
+            {
+                tastiera.nextLine();
+                System.out.println("Errore nell'inserimento del dato");
+            }
         }while (sceltaUtente!=0);
         
     }
