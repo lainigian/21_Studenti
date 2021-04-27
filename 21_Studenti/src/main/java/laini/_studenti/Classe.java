@@ -5,6 +5,13 @@
  */
 package laini._studenti;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 import utility.Ordinatore;
 
@@ -12,7 +19,7 @@ import utility.Ordinatore;
  *
  * @author User
  */
-public class Classe 
+public class Classe implements Serializable
 {
     private String indirizzo;
     private String sezione;
@@ -364,4 +371,22 @@ public class Classe
         
     }
     
+    /*
+    public void salvaClasse(String nomeFile) throws IOException
+    {
+        FileOutputStream f1= new FileOutputStream(nomeFile);
+        ObjectOutputStream writer=new ObjectOutputStream(f1);
+        writer.writeObject(this);
+        writer.flush();
+        writer.close();   
+    }
+    
+    public Classe caricaClasse(String nomeFile) throws IOException
+    {
+        FileInputStream f1= new FileInputStream(nomeFile);
+        ObjectInputStream reader=new ObjectInputStream(f1);
+        Classe c1;
+        c1=reader.readObject()
+    }
+    */
 }

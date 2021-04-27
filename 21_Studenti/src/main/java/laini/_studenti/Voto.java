@@ -5,13 +5,14 @@
  */
 package laini._studenti;
 
+import java.io.Serializable;
 import java.time.*;
 
 /**
  *
  * @author Gian
  */
-public class Voto 
+public class Voto implements Serializable
 {
     private long idVoto;
     private LocalDate data;

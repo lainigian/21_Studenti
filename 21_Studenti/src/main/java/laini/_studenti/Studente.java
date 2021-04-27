@@ -5,11 +5,13 @@
  */
 package laini._studenti;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Gian
  */
-public class Studente 
+public class Studente implements Serializable
 {
     private long matricola;
     private final int N_MAX_VOTI=100;

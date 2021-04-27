@@ -5,9 +5,16 @@
  */
 package laini._studenti;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,17 +28,46 @@ public class Main
     static long matricolaProssimoStudente=1;   //incremento ogni volta che aggiungo uno studente (non decremento)
     static Scanner tastiera=new Scanner(System.in);
     
+    
     public static void main(String[] args) 
     {
         int esitoOperazione;
         Classe[] elencoClassi= new Classe[N_MAX_CLASSI];
         int nClassiPresenti=0;  
         Classe classe;
+        final String nomeFileBinario="elencoClassi.bin";
 
-        String[] elencoVociMenuIniziale={"Esci","Visualizza classi presenti", "Seleziona classe", "Aggiungi nuova classe"};
+        String[] elencoVociMenuIniziale={"Esci","Visualizza classi presenti", "Seleziona classe", "Aggiungi nuova classe", "Salva dati"};
         int sceltaUtente;
         Menu menuIniziale=new Menu(elencoVociMenuIniziale);
-
+        
+        try
+        {
+            FileInputStream f2=new FileInputStream(nomeFileBinario);
+            ObjectInputStream reader=new ObjectInputStream(f2);
+            elencoClassi=(Classe[])reader.readObject();
+            reader.close();
+            int c=0;
+            for (int i=0;i<N_MAX_CLASSI;i++)
+            {
+                if (elencoClassi[i]!=null)
+                    c++;
+            }
+            nClassiPresenti=c;
+            System.out.println("Dati caricati correttamente");
+        }
+        catch(IOException e1)
+        {
+            System.out.println("Impossibile accedere al file. I dati non sono stati caricati");
+        } 
+        catch (ClassNotFoundException ex) 
+        {
+            System.out.println("Errore nella lettura del file. I dati non sono stati caricati");
+        }
+        
+        
+        
+        
         do
         {
             sceltaUtente=menuIniziale.sceltaMenu();
@@ -99,6 +135,25 @@ public class Main
                         nClassiPresenti++;
                         System.out.println("Nuova classe aggiunta correttamente");
                     }
+                    break;
+                }
+                case 4:
+                {
+                    try
+                    {
+                        FileOutputStream f1= new FileOutputStream(nomeFileBinario);
+                        ObjectOutputStream writer=new ObjectOutputStream(f1); 
+                        writer.writeObject(elencoClassi);
+                        writer.flush();
+                        writer.close();
+                        System.out.println("Dati salvati correttamente.");
+                    }
+                    catch(IOException e1)
+                    {
+                        System.out.println("Impossibile accedre al file. I dati non sono stati salvati");
+                    }
+                    
+                    
                     break;
                 }
                 
